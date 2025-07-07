@@ -1415,6 +1415,9 @@ end
 
 H.update_git_status = function(root, bufs)
   local command = H.git_cmd({ 'status', '--verbose', '--untracked-files=all', '--ignored', '--porcelain', '-z', '--' })
+  if vim.env['MINI_GIT_NOLOCK'] ~= nil then
+    command = H.git_cmd({ '--no-optional-locks', 'status', '--verbose', '--untracked-files=all', '--ignored', '--porcelain', '-z', '--' })
+  end
   local root_len, path_data = string.len(root), {}
   for _, buf_id in ipairs(bufs) do
     -- Use paths relative to the root as in `git status --porcelain` output
