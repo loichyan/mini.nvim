@@ -261,6 +261,7 @@ local H = {}
 ---   require('mini.completion').setup({}) -- replace {} with your config table
 --- <
 MiniCompletion.setup = function(config)
+  _G.log = {}
   -- Export module
   _G.MiniCompletion = MiniCompletion
 
@@ -889,6 +890,7 @@ H.auto_info = function()
   -- Update metadata before leaving to register a `CompleteChanged` event
   H.info.timer:stop()
   H.info.event = vim.v.event
+  table.insert(_G.log, { state = 'auto_info', col = H.info.event.col, item = H.info.event.completed_item })
   H.info.id = H.info.id + 1
 
   -- Stop showing window if no candidate is selected
@@ -1354,6 +1356,7 @@ end
 H.show_info_window = function()
   local event = H.info.event
   if not event then return end
+  table.insert(_G.log, { state = 'show_info_window', col = H.info.event.col, item = H.info.event.completed_item })
 
   -- Get info lines to show. Wait for resolve if returned `false`.
   local lines = H.info_window_lines(H.info.id)
@@ -1459,6 +1462,9 @@ H.info_window_options = function()
 
   -- Compute position
   local event = H.info.event
+  if event.col == nil then
+    table.insert(_G.log, { state = 'info_window_options:catch(col=nil)', item = H.info.event.completed_item })
+  end
   local left_to_pum = event.col - 1
   local right_to_pum = event.col + event.width + (event.scrollbar and 1 or 0)
 

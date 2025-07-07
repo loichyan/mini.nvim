@@ -1,0 +1,87 @@
+{ {
+    col = 12,
+    item = <1>{
+      abbr = "",
+      info = "",
+      kind = "",
+      menu = "",
+      user_data = "",
+      word = "base16"
+    },
+    state = "auto_info"
+  }, {
+    col = 12,
+    item = <table 1>,
+    state = "show_info_window"
+  }, {
+    col = 15,
+    item = <2>{
+      abbr = "",
+      info = "",
+      kind = "",
+      menu = "",
+      user_data = "",
+      word = "base16"
+    },
+    state = "auto_info"
+  }, {
+    col = 15,
+    item = <table 2>,
+    state = "show_info_window"
+  }, {
+    col = 15,
+    item = <3>{
+      abbr = "",
+      info = "",
+      kind = "",
+      menu = "",
+      user_data = "",
+      word = "be"
+    },
+    state = "auto_info"
+  }, {
+    col = 15,
+    item = <table 3>,
+    state = "show_info_window"
+  }, {
+    col = 33,
+    item = <4>{
+      abbr = "",
+      info = "",
+      kind = "",
+      menu = "",
+      user_data = "",
+      word = "toggle"
+    },
+    state = "auto_info"
+  }, {
+    col = 33,
+    item = <table 4>,
+    state = "show_info_window"
+  }, {
+    col = 6,
+    item = {
+      abbr = "",
+      info = "",
+      kind = "",
+      menu = "",
+      user_data = "",
+      word = "loichyan"
+    },
+    state = "auto_info"
+  }, {
+    item = vim.empty_dict(),
+    state = "auto_info"
+  }, {
+    item = <5>vim.empty_dict(),
+    state = "auto_info"
+  }, {
+    item = <table 5>,
+    state = "show_info_window"
+  }, {
+    item = <table 5>,
+    state = "info_window_options:catch(col=nil)"
+  }, {
+    item = vim.empty_dict(),
+    state = "auto_info"
+  } }

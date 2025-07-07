@@ -1,0 +1,5 @@
+Error executing vim.schedule lua callback: ...m/site/pack/deps/start/mini.nvim/lua/mini/completion.lua:1468: attempt to perform arithmetic on field 'col' (a nil value)
+stack traceback:
+	...m/site/pack/deps/start/mini.nvim/lua/mini/completion.lua:1468: in function 'info_window_options'
+	...m/site/pack/deps/start/mini.nvim/lua/mini/completion.lua:1373: in function ''
+	vim/_editor.lua: in function <vim/_editor.lua:0>
