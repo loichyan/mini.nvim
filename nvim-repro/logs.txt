@@ -1,0 +1,211 @@
+{ {
+    event = "CompleteDonePre",
+    ["v:completed_item"] = {
+      abbr = "require(modname)",
+      info = "require(${1:modname})",
+      kind = "Function",
+      menu = "S",
+      user_data = {
+        lsp = {
+          item = {
+            client_id = 1,
+            command = {
+              command = "editor.action.triggerParameterHints",
+              title = "trigger signature"
+            },
+            data = {
+              id = 16,
+              uri = "mini.nvim/nvim-repro/test.lua"
+            },
+            insertText = "require(${1:modname})",
+            insertTextFormat = 2,
+            kind = 3,
+            label = "require(modname)",
+            sortText = "0013"
+          },
+          item_id = 4,
+          needs_snippet_insert = true
+        }
+      },
+      word = "require(modname)"
+    },
+    ["v:event"] = vim.empty_dict()
+  }, {
+    event = "CompleteDone",
+    ["v:completed_item"] = {
+      abbr = "require(modname)",
+      info = "require(${1:modname})",
+      kind = "Function",
+      menu = "S",
+      user_data = {
+        lsp = {
+          item = {
+            client_id = 1,
+            command = {
+              command = "editor.action.triggerParameterHints",
+              title = "trigger signature"
+            },
+            data = {
+              id = 16,
+              uri = "mini.nvim/nvim-repro/test.lua"
+            },
+            insertText = "require(${1:modname})",
+            insertTextFormat = 2,
+            kind = 3,
+            label = "require(modname)",
+            sortText = "0013"
+          },
+          item_id = 4,
+          needs_snippet_insert = true
+        }
+      },
+      word = "require(modname)"
+    },
+    ["v:event"] = {
+      complete_type = "function",
+      complete_word = "require(modname)",
+      reason = "accept"
+    }
+  }, {
+    event = "mini.completion.make_lsp_extra_actions"
+  }, {
+    event = "CompleteDonePre",
+    ["v:completed_item"] = {
+      abbr = "require(modname)",
+      info = "require(${1:modname})",
+      kind = "Function",
+      menu = "S",
+      user_data = {
+        lsp = {
+          item = {
+            client_id = 1,
+            command = {
+              command = "editor.action.triggerParameterHints",
+              title = "trigger signature"
+            },
+            data = {
+              id = 32,
+              uri = "mini.nvim/nvim-repro/test.lua"
+            },
+            insertText = "require(${1:modname})",
+            insertTextFormat = 2,
+            kind = 3,
+            label = "require(modname)",
+            sortText = "0013"
+          },
+          item_id = 4,
+          needs_snippet_insert = true
+        }
+      },
+      word = "require(modname)"
+    },
+    ["v:event"] = vim.empty_dict()
+  }, {
+    event = "CompleteDone",
+    ["v:completed_item"] = {
+      abbr = "require(modname)",
+      info = "require(${1:modname})",
+      kind = "Function",
+      menu = "S",
+      user_data = {
+        lsp = {
+          item = {
+            client_id = 1,
+            command = {
+              command = "editor.action.triggerParameterHints",
+              title = "trigger signature"
+            },
+            data = {
+              id = 32,
+              uri = "mini.nvim/nvim-repro/test.lua"
+            },
+            insertText = "require(${1:modname})",
+            insertTextFormat = 2,
+            kind = 3,
+            label = "require(modname)",
+            sortText = "0013"
+          },
+          item_id = 4,
+          needs_snippet_insert = true
+        }
+      },
+      word = "require(modname)"
+    },
+    ["v:event"] = {
+      complete_type = "function",
+      complete_word = "",
+      reason = "discard"
+    }
+  }, {
+    event = "mini.completion.make_lsp_extra_actions"
+  }, {
+    event = "CompleteDonePre",
+    ["v:completed_item"] = {
+      abbr = "require(modname)",
+      info = "require(${1:modname})",
+      kind = "Function",
+      menu = "S",
+      user_data = {
+        lsp = {
+          item = {
+            client_id = 1,
+            command = {
+              command = "editor.action.triggerParameterHints",
+              title = "trigger signature"
+            },
+            data = {
+              id = 48,
+              uri = "mini.nvim/nvim-repro/test.lua"
+            },
+            insertText = "require(${1:modname})",
+            insertTextFormat = 2,
+            kind = 3,
+            label = "require(modname)",
+            sortText = "0013"
+          },
+          item_id = 4,
+          needs_snippet_insert = true
+        }
+      },
+      word = "require(modname)"
+    },
+    ["v:event"] = vim.empty_dict()
+  }, {
+    event = "CompleteDone",
+    ["v:completed_item"] = {
+      abbr = "require(modname)",
+      info = "require(${1:modname})",
+      kind = "Function",
+      menu = "S",
+      user_data = {
+        lsp = {
+          item = {
+            client_id = 1,
+            command = {
+              command = "editor.action.triggerParameterHints",
+              title = "trigger signature"
+            },
+            data = {
+              id = 48,
+              uri = "mini.nvim/nvim-repro/test.lua"
+            },
+            insertText = "require(${1:modname})",
+            insertTextFormat = 2,
+            kind = 3,
+            label = "require(modname)",
+            sortText = "0013"
+          },
+          item_id = 4,
+          needs_snippet_insert = true
+        }
+      },
+      word = "require(modname)"
+    },
+    ["v:event"] = {
+      complete_type = "function",
+      complete_word = "",
+      reason = "discard"
+    }
+  }, {
+    event = "mini.completion.make_lsp_extra_actions"
+  } }

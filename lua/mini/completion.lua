@@ -1314,6 +1314,7 @@ H.make_lsp_extra_actions = function(lsp_data)
   vim.schedule(function()
     -- Do nothing if user exited Insert mode
     if vim.fn.mode() ~= 'i' then return end
+    table.insert(log, { event = 'mini.completion.make_lsp_extra_actions' })
 
     -- Undo possible non-keyword character(s) and cursor move. Do this before
     -- text edits to have more proper state (as it was at the time edits were
