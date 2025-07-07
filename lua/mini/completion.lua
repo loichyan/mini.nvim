@@ -890,12 +890,13 @@ H.auto_info = function()
   -- Update metadata before leaving to register a `CompleteChanged` event
   H.info.timer:stop()
   H.info.event = vim.v.event
-  table.insert(_G.log, { state = 'auto_info', col = H.info.event.col, item = H.info.event.completed_item })
+  table.insert(_G.log, { state = 'auto_info:enter', item = H.info.event.completed_item })
   H.info.id = H.info.id + 1
 
   -- Stop showing window if no candidate is selected
   local completed_item = H.info.event.completed_item
   if completed_item.word == nil then
+    table.insert(_G.log, { state = 'auto_info:close_action_window', item = H.info.event.completed_item })
     return vim.schedule(function() H.close_action_window(H.info, true) end)
   end
 
@@ -910,6 +911,7 @@ H.auto_info = function()
   if H.is_valid_win(win_id) and delay > 0 then
     vim.wo[win_id].winhighlight = vim.wo[win_id].winhighlight .. ',FloatBorder:MiniCompletionInfoBorderOutdated'
   end
+  table.insert(_G.log, { state = 'auto_info:show_info_window', item = H.info.event.completed_item })
   H.info.timer:start(delay, 0, vim.schedule_wrap(H.show_info_window))
 end
 
@@ -1356,7 +1358,7 @@ end
 H.show_info_window = function()
   local event = H.info.event
   if not event then return end
-  table.insert(_G.log, { state = 'show_info_window', col = H.info.event.col, item = H.info.event.completed_item })
+  table.insert(_G.log, { state = 'show_info_window:enter', item = H.info.event.completed_item })
 
   -- Get info lines to show. Wait for resolve if returned `false`.
   local lines = H.info_window_lines(H.info.id)

@@ -1,0 +1,38 @@
+{ {
+    item = <1>{
+      abbr = "",
+      info = "",
+      kind = "",
+      menu = "",
+      user_data = "",
+      word = "loichyan"
+    },
+    state = "auto_info:enter"
+  }, {
+    item = <table 1>,
+    state = "auto_info:show_info_window"
+  }, {
+    item = <2>vim.empty_dict(),
+    state = "auto_info:enter"
+  }, {
+    item = <table 2>,
+    state = "auto_info:close_action_window"
+  }, {
+    item = <table 2>,
+    state = "show_info_window:enter"
+  }, {
+    item = <table 2>,
+    state = "info_window_options:catch(col=nil)"
+  }, {
+    item = <3>vim.empty_dict(),
+    state = "auto_info:enter"
+  }, {
+    item = <table 3>,
+    state = "auto_info:close_action_window"
+  }, {
+    item = <4>vim.empty_dict(),
+    state = "auto_info:enter"
+  }, {
+    item = <table 4>,
+    state = "auto_info:close_action_window"
+  } }
