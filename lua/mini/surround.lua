@@ -1270,6 +1270,16 @@ H.make_operator = function(task, search_method, ask_for_textobject)
 
     vim.o.operatorfunc = 'v:lua.MiniSurround.' .. task
 
+    if vim.env['MINI_SURROUND_DEL'] then
+      -- Based on:
+      -- - https://github.com/kylechui/nvim-surround/blob/c271c9082886a24866353764cf96c9d957e95b2b/lua/nvim-surround/init.lua#L65
+      -- - https://github.com/neovim/neovim/blob/a26cdcb20e68f38f636b14a03c3f9657f5c74f67/src/nvim/normal.c#L916
+      local reset_vcount = vim.v.count > 1 and string.rep('<Del>', #tostring(vim.v.count)) or ''
+      return reset_vcount .. 'g@' .. (ask_for_textobject and '' or ' ')
+    elseif vim.env['MINI_SURROUND_REDRAW'] then
+      return '<Cmd>redraw<CR>g@' .. (ask_for_textobject and '' or ' ')
+    end
+
     -- NOTEs:
     -- - Prepend with command to reset `vim.v.count1` to allow
     -- `[count1]sa[count2][textobject]`.
