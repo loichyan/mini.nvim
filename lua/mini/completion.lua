@@ -890,8 +890,8 @@ H.auto_info = function()
   -- Update metadata before leaving to register a `CompleteChanged` event
   H.info.timer:stop()
   H.info.event = vim.v.event
-  table.insert(_G.log, { state = 'auto_info:enter', item = H.info.event.completed_item })
   H.info.id = H.info.id + 1
+  table.insert(_G.log, { state = 'auto_info:enter', item = H.info.event.completed_item })
 
   -- Stop showing window if no candidate is selected
   local completed_item = H.info.event.completed_item
@@ -912,7 +912,10 @@ H.auto_info = function()
     vim.wo[win_id].winhighlight = vim.wo[win_id].winhighlight .. ',FloatBorder:MiniCompletionInfoBorderOutdated'
   end
   table.insert(_G.log, { state = 'auto_info:show_info_window', item = H.info.event.completed_item })
-  H.info.timer:start(delay, 0, vim.schedule_wrap(H.show_info_window))
+  H.info.timer:start(delay, 0, function()
+    table.insert(_G.log, { state = 'auto_info:schedule(show_info_window)', item = H.info.event.completed_item })
+    vim.schedule(H.show_info_window)
+  end)
 end
 
 H.auto_signature = function()
