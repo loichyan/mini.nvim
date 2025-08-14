@@ -12,7 +12,43 @@ require('mini.deps').setup()
 -- Add extra setup steps needed to reproduce the behavior
 -- Use `MiniDeps.add('user/repo')` to install another plugin from GitHub
 
-require('mini.completion').setup()
+-- Remove the argument part from each function completion.
+local remove_arguments = function(items)
+  for _, item in ipairs(items) do
+    if item.kind == vim.lsp.protocol.CompletionItemKind.Function and type(item.label) == 'string' then
+      table.insert(log, item)
+      local new_label = item.label:match('^([-_.%w]+)%(.*%)')
+      item.label = new_label or item.label
+    end
+  end
+end
+local process_items = function(items, base)
+  remove_arguments(items)
+  return MiniCompletion.default_process_items(items, base)
+end
+require('mini.completion').setup({
+  lsp_completion = { process_items = process_items },
+})
+
+-- Press '<CR>' to expand snippet when selected
+_G.cr_action = function()
+  if vim.fn.complete_info()['selected'] ~= -1 then return '\25' end
+  return '\r'
+end
+vim.keymap.set('i', '<CR>', 'v:lua.cr_action()', { expr = true })
+
+-- Press '(' to expand snippet when selected
+_G.pair_action = function()
+  if vim.fn.complete_info()['selected'] ~= -1 then return '\25' end
+  return '('
+end
+vim.keymap.set('i', '(', 'v:lua.pair_action()', { expr = true })
+
+-- Manually close the completion menu
+vim.keymap.set('i', '<C-c>', '<C-o><Esc>')
+
+-- Configurations for tracking logs --------------------------------------------
+
 vim.o.signcolumn = 'yes'
 
 -- Copied from: https://github.com/neovim/nvim-lspconfig/blob/45ff1914044de7dbd4cd85053dc09f47312a2f4d/lsp/lua_ls.lua#L70
