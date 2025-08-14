@@ -807,6 +807,7 @@ H.create_autocommands = function(config)
   au('CursorMovedI', '*', H.auto_signature, 'Auto show signature')
   au('ModeChanged', 'i*:[^i]*', function() MiniCompletion.stop() end, 'Stop completion')
   au('CompleteDonePre', '*', H.on_completedonepre, 'On CompleteDonePre')
+  au('CompleteDone', '*', H.on_completedone, 'On CompleteDone')
   au('TextChangedI', '*', H.on_text_changed_i, 'On TextChangedI')
   au('TextChangedP', '*', H.on_text_changed_p, 'On TextChangedP')
 
@@ -952,6 +953,8 @@ H.on_completedonepre = function()
   -- Stop processes
   MiniCompletion.stop({ 'completion', 'info' })
 end
+
+H.on_completedone = function() H.completedone_reason = vim.v.event.reason end
 
 H.on_text_changed_i = function()
   -- Track Insert mode changes
@@ -1314,6 +1317,11 @@ H.make_lsp_extra_actions = function(lsp_data)
   vim.schedule(function()
     -- Do nothing if user exited Insert mode
     if vim.fn.mode() ~= 'i' then return end
+
+    local reason = H.completedone_reason
+    H.completedone_reason = nil
+    if reason == 'discard' then return end
+
     table.insert(log, { event = 'mini.completion.make_lsp_extra_actions' })
 
     -- Undo possible non-keyword character(s) and cursor move. Do this before
