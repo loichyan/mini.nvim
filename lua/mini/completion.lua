@@ -1235,7 +1235,7 @@ H.lsp_completion_response_items_to_complete_items = function(items)
     -- important to make "implicit" expand work with LSP servers that report
     -- even regular words as `InsertTextFormat.Snippet` (like `gopls`).
     local needs_snippet_insert = (is_snippet_kind or is_snippet_format)
-      and (word:find('[^\\]%${?%w') ~= nil or word:find('^%${?%w') ~= nil)
+    -- and (word:find('[^\\]%${?%w') ~= nil or word:find('^%${?%w') ~= nil)
 
     local details = item.labelDetails or {}
     -- NOTE: Using `table.concat({}, ' ')` would be cleaner but less performant
