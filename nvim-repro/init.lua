@@ -44,7 +44,7 @@ local process_lsp_items = function(items)
       item.filterText = word
       item.sortText = word
 
-      if word == inserttext and word == abbr then
+      if word == inserttext then
         -- If the completion word matches the text to be inserted, do not make it
         -- a potential snippet, since some LSPs report all items as snippets.
         item.insertTextFormat = textformat.PlainText

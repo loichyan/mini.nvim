@@ -1,5 +1,3 @@
--- stylua: ignore start
-
 -- This is treated as a snippet, hence word inserted is `test`.
 local test = function(a, b, c) vim.print(a, b, c) end
 -- This is *not* treated as a snippet, hence word inserted is `test2()`.
