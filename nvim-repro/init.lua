@@ -26,56 +26,70 @@ vim.lsp.enable('lua_ls')
 vim.o.signcolumn = 'yes'
 
 local process_lsp_items = function(items)
-  local snippet_kind = vim.lsp.protocol.CompletionItemKind.Snippet
-  local snippet_format = vim.lsp.protocol.InsertTextFormat.Snippet
+  local item_kind = vim.lsp.protocol.CompletionItemKind
+  local textformat = vim.lsp.protocol.InsertTextFormat
 
+  -- For each item, use only its first keyword part as the completion word if
+  -- possible, which can increase the fuzzy-filtering accuracy and stop Nvim
+  -- from inserting too many useless characters when it gets selected.
   for _, item in ipairs(items) do
-    -- Match only the name for completion filtering of function-like items.
-    local textedit = vim.tbl_get(item, 'textEdit', 'newText')
-    local inserttext = item.insertText
-    local word = textedit or inserttext or item.label
-    local new_word = word:match('([-_.%w]+)%(.*%)')
+    -- For snippet items, respect the abbr/word/filterText anyway, since they
+    -- are configured intentionally.
+    if item.kind ~= item_kind.Snippet then
+      local abbr = item.label -- word shown in popupmenu
+      local word = abbr:match('^[-_.%w]+') or abbr -- word used to match
+      local textedit = (item.textEdit or {}).newText
+      local inserttext = textedit or item.insertText or abbr -- word to be inserted
 
-    if not new_word then goto continue end
-    item.filterText = item.filterText or new_word
+      item.filterText = word
+      item.sortText = word
 
-    -- Adds a tabstop anyway for functions anyway to resolve
-    -- <https://github.com/echasnovski/mini.nvim/issues/1938>.
-    local is_snippet_kind = item.kind == snippet_kind
-    local is_snippet_format = item.insertTextFormat == snippet_format
-    if not is_snippet_kind and not is_snippet_format then goto continue end
-
-    local has_tabstop = word:find('[^\\]%${?%w') or word:find('^%${?%w')
-    if has_tabstop then
-    elseif textedit then
-      item.textEdit.newText = textedit .. '$0'
-    else
-      item.insertText = inserttext .. '$0'
+      if word == inserttext and word == abbr then
+        -- If the completion word matches the text to be inserted, do not make it
+        -- a potential snippet, since some LSPs report all items as snippets.
+        item.insertTextFormat = textformat.PlainText
+      else
+        -- Otherwise, ensure the new item can be recognized as a snippet by
+        -- mini.completion. The presence of at least one tabstop is important,
+        -- which resolves <https://github.com/echasnovski/mini.nvim/issues/1944>.
+        item.insertTextFormat = textformat.Snippet
+        local has_tabstop = inserttext:find('[^\\]%${?%w') or inserttext:find('^%${?%w')
+        if has_tabstop then
+        elseif textedit then
+          item.textEdit.newText = textedit .. '$0'
+        else
+          item.insertText = inserttext .. '$0'
+        end
+      end
     end
-
-    ::continue::
   end
 
   return items
 end
 
-require('mini.completion').setup({
-  lsp_completion = { process_items = process_lsp_items },
+-- Must be executed before mini.completion's autocommmands
+vim.api.nvim_create_autocmd('CompleteDonePre', {
+  desc = 'Filter out unintended confirms',
+  callback = function()
+    -- Only use certain keys to confirm a completion.
+    -- This resolves <https://github.com/echasnovski/mini.nvim/issues/1938>.
+    if not vim.g.complete_confirm then
+      vim.v.completed_item = vim.empty_dict()
+    else
+      vim.g.complete_confirm = nil
+    end
+  end,
 })
 
--- Completely disable the CompleteDonePre event
-local enable_comp = function() vim.opt.eventignore:remove('CompleteDonePre') end
-local disable_comp = function() vim.opt.eventignore:append('CompleteDonePre') end
-vim.api.nvim_create_autocmd('InsertEnter', { callback = disable_comp })
-vim.api.nvim_create_autocmd('InsertLeave', { callback = enable_comp })
-
--- But enable it for certain keys
+-- Deliberately select the key to accept a completion
 local whitelist = { '<C-y>', '<CR>', '(' }
 for _, key in ipairs(whitelist) do
   vim.keymap.set('i', key, function()
-    enable_comp()
-    local rawkey = vim.api.nvim_replace_termcodes(key, true, true, true)
-    vim.api.nvim_feedkeys(rawkey, 'n', false)
-    vim.schedule(disable_comp)
-  end)
+    vim.g.complete_confirm = true
+    return '<C-y>'
+  end, { expr = true })
 end
+
+require('mini.completion').setup({
+  lsp_completion = { process_items = process_lsp_items },
+})
